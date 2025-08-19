@@ -5,329 +5,118 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Elysium Email Signature</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        /* ===== Brand tokens (edit these) ===== */
-        :root {
-            --brand: #f97316;
-            /* primary accent (orange) */
-            --ink: #111827;
-            /* main text */
-            --muted: #6b7280;
-            /* secondary text */
-            --card: #ffffff;
-            /* card bg */
-            --rim: #e5e7eb;
-            /* subtle borders */
-            --chip: #fff7ed;
-            /* soft orange chip bg */
-        }
-
-        /* Page framing (for preview/canva) */
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f3f4f6;
-            padding: 20px;
-        }
-
-        /* ===== Signature card ===== */
-        .sig {
-            max-width: 920px;
-            margin: 0;
-            background: var(--card);
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, .10);
-            border: 1px solid var(--rim);
-            overflow: hidden;
-        }
-
-        /* top accent */
-        .sig::before {
-            content: "";
-            display: block;
-            height: 4px;
-            background: linear-gradient(90deg, var(--brand), #ffb27a);
-        }
-
-        .row {
-            display: flex;
-            gap: 28px;
-            padding: 26px 26px 10px;
-            align-items: flex-start;
-            flex-wrap: wrap;
-        }
-
-        /* ===== Left: identity & contacts ===== */
-        .left {
-            flex: 1 1 430px;
-            min-width: 320px;
-        }
-
-        .name {
-            font-size: 26px;
-            line-height: 1.2;
-            font-weight: 800;
-            color: var(--ink);
-            letter-spacing: .2px;
-        }
-
-        .name .accent {
-            color: var(--brand);
-        }
-
-        .role {
-            font-size: 14px;
-            margin-top: 4px;
-            color: var(--muted);
-            letter-spacing: .3px;
-        }
-
-        .chips {
-            margin-top: 12px;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .chip {
-            background: var(--chip);
-            color: var(--brand);
-            border: 1px solid rgba(249, 115, 22, .25);
-            border-radius: 999px;
-            padding: 6px 10px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .contact div {
-            font-size: 14px;
-            margin: 6px 0;
-            padding: 10px;
-            color: #374151;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .contact i {
-            color: #f97316;
-            /* orange highlight */
-            font-size: 15px;
-            width: 18px;
-            text-align: center;
-
-        }
-
-        .contact a {
-            color: #374151;
-            text-decoration: none;
-        }
-
-        .contact .muted {
-            color: var(--muted);
-        }
-
-        /* SVG icon style */
-        .ico {
-            width: 24px;
-            height: 24px;
-            display: inline-block;
-            color: var(--brand);
-        }
-
-        .social {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            border-top: 1px solid #ddd;
-            padding-top: 14px;
-        }
-
-        .social span {
-            font-size: 13px;
-            color: #6b7280;
-            font-weight: 600;
-        }
-
-        .social a {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 15px;
-            text-decoration: none;
-        }
-
-        .facebook {
-            background: #f97316;
-        }
-
-        .instagram {
-            background: #f97316;
-        }
-
-        .twitter {
-            background: #f97316;
-        }
-
-        .linkedin {
-            color: #f97316;
-        }
-
-
-
-        /* ===== Right: big logo block ===== */
-        .right {
-            flex: 1 1 360px;
-            min-width: 300px;
-            border-left: 1px solid var(--rim);
-            padding-left: 26px;
-        }
-
-        .brandmark {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: radial-gradient(1200px 300px at 0% 0%, #fff7ed 0, transparent 50%);
-            border: 1px dashed rgba(249, 115, 22, .35);
-            border-radius: 14px;
-            padding: 18px;
-            min-height: 140px;
-        }
-
-        .brandmark img {
-            max-width: 280px;
-            height: auto;
-            display: block;
-        }
-
-        .legal {
-            text-align: center;
-            font-size: 12px;
-            color: var(--muted);
-            margin-top: 10px;
-            letter-spacing: .2px;
-        }
-
-        /* ===== Partners ===== */
-        .partners {
-            margin: 16px 26px 22px;
-            border-top: 2px solid var(--brand);
-            padding-top: 14px;
-        }
-
-        .partners h6 {
-            margin: 0 0 8px 0;
-            padding: 0;
-            font-size: 13px;
-            color: var(--ink);
-        }
-
-        .logos {
-            display: flex;
-            gap: 18px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .logos img {
-            height: 60px;
-            /* larger logos */
-            object-fit: contain;
-            filter: saturate(1.05);
-            transition: transform .18s ease;
-        }
-
-        .logos img:hover {
-            transform: translateY(-2px);
-        }
-
-        /* ===== Responsive polish ===== */
-        @media (max-width:640px) {
-            .right {
-                border-left: none;
-                padding-left: 0;
-            }
-
-            .brandmark img {
-                max-width: 220px;
-            }
-
-            .logos img {
-                height: 52px;
-            }
-
-            .contact div {
-                padding: auto;
-            }
-        }
-    </style>
 </head>
 
 <body>
 
-    <!-- ===== Signature ===== -->
-    <div class="sig">
-        <div class="row">
-            <!-- LEFT: Name + contact -->
-            <div class="left">
-                <div class="name">MARK <span class="accent">SMITHSON</span></div>
-                <div class="role">GENERAL MANAGER &nbsp;•&nbsp; Elysium Electrical Ptv Ltd</div>
+    <!-- Elysium Electrical Email Signature -->
+    <table border="0" cellspacing="0" cellpadding="0"
+        style="max-width:650px; font-family:Arial,Helvetica,sans-serif; font-size:14px; line-height:20px; color:#111827; border-top:4px solid #f97316;">
+        <tr>
+            <!-- Left column -->
+            <td valign="top" style="padding:20px; border-right:1px solid #e5e7eb;">
 
-                <div class="chips">
-                    <span class="chip">EC 16523</span>
-                    <span class="chip">Commercial • Residential • Communications</span>
+                <!-- Name -->
+                <div style="font-size:20px; font-weight:bold; color:#111827; line-height:24px;">
+                    MARK <span style="color:#f97316;">SMITHSON</span>
+                </div>
+                <div style="font-size:13px; color:#6b7280; margin-top:4px;">
+                    GENERAL MANAGER • Elysium Electrical Pty Ltd
                 </div>
 
-                <div class="contact">
-                    <div><i class="fas fa-phone"></i> <a href="tel:1234567890">1234567890</a></div>
-                    <div><i class="fas fa-envelope"></i> <a href="mailto:info@youremail.com">info@youremail.com</a>
-                    </div>
-                    <div><i class="fas fa-globe"></i> <a href="https://www.yourwebsite.com">www.yourwebsite.com</a>
-                    </div>
+                <!-- Chips -->
+                <div style="margin-top:10px;">
+                    <span
+                        style="background:#fff7ed; color:#f97316; border:1px solid #fbbf24; border-radius:20px; font-size:12px; font-weight:bold; padding:3px 8px; margin-right:4px; display:inline-block;">EC
+                        16523</span>
+                    <span
+                        style="background:#fff7ed; color:#f97316; border:1px solid #fbbf24; border-radius:20px; font-size:12px; font-weight:bold; padding:3px 8px; display:inline-block;">Commercial
+                        • Residential • Communications</span>
                 </div>
 
-                <div class="social">
-                    <span>FOLLOW US:</span>
-                    <a href="https://facebook.com" target="_blank" class="facebook"><i
-                            class="fab fa-facebook-f"></i></a>
-                    <a href="https://instagram.com" target="_blank" class="instagram"><i
-                            class="fab fa-instagram"></i></a>
-                    <a href="https://twitter.com" target="_blank" class="twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="https://linkedin.com" target="_blank" class="linkedin"><i
-                            class="fab fa-linkedin-in"></i></a>
+                <!-- Contact -->
+                <div style="margin-top:12px; font-size:14px; color:#374151;">
+                    <div style="margin:4px 0;">📞 <a href="tel:1234567890"
+                            style="color:#374151; text-decoration:none;">1234567890</a></div>
+                    <div style="margin:4px 0;">✉️ <a href="mailto:info@youremail.com"
+                            style="color:#374151; text-decoration:none;">info@youremail.com</a></div>
+                    <div style="margin:4px 0;">🌐 <a href="https://www.yourwebsite.com"
+                            style="color:#374151; text-decoration:none;">www.yourwebsite.com</a></div>
                 </div>
-            </div>
 
-            <!-- RIGHT: big logo / crest -->
-            <div class="right">
-                <div class="brandmark">
-                    <img src="Elysium Electrical ab01-01.png" alt="Elysium Electrical logo">
+                <!-- Social -->
+                <div style="margin-top:14px; font-size:12px; color:#6b7280; font-weight:bold;">
+                    FOLLOW US:
+                    <a href="https://linkedin.com/in/yourhandle" target="_blank"
+                        style="text-decoration:none; margin-left:8px;">
+                        <span
+                            style="background:#f97316; color:white; padding:4px 6px; border-radius:3px; font-size:10px; font-weight:bold;">in</span>
+                    </a>
+                    <a href="https://facebook.com/yourhandle" target="_blank"
+                        style="text-decoration:none; margin-left:8px;">
+                        <span
+                            style="background:#f97316; color:white; padding:4px 6px; border-radius:3px; font-size:10px; font-weight:bold;">f</span>
+                    </a>
+
                 </div>
-                <div class="legal">Contractors Pty Ltd · EC 16523</div>
-            </div>
-        </div>
 
-        <!-- PARTNERS -->
-        <div class="partners">
-            <h4>Our Trusted Partners</h4>
-            <div class="logos">
-                <img src="NECA+Member+logo_1.jpg" alt="NECA Member">
-                <img src="xero-logo_1.jpg" alt="Xero">
-                <img src="BUILDXACT-logo_1.jpg" alt="Buildxact">
-                <img src="HSEQ_hiRes_1.jpg" alt="HSEQ">
-                <img src="CM3+PREQUALIFIED_1.jpg" alt="CM3 Prequalified">
-                <img src="CES-logo_1.jpg" alt="CES">
-            </div>
-        </div>
-    </div>
-    <!-- ===== /Signature ===== -->
+            </td>
+
+            <!-- Right column -->
+            <td valign="middle" align="center" style="padding:20px; width:220px;">
+                <img src="Elysium Electrical ab01-01.png" alt="Elysium Electrical" width="160"
+                    style="display:block; border:0;">
+                <div style="font-size:12px; color:#6b7280; margin-top:8px;">Contractors Pty Ltd · EC 16523</div>
+            </td>
+        </tr>
+
+        <!-- Partners -->
+        <tr>
+            <td colspan="2" style="padding:15px 20px; border-top:2px solid #f97316;">
+                <div style="font-size:16px; font-weight:bold; color:#111827; margin-bottom:8px;">Our Trusted Partners
+                </div>
+                <table border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td style="padding-right:12px;">
+                            <img src="NECA+Member+logo_1.jpg" alt="NECA Member" height="60"
+                                style="display:block; border:0;">
+                        </td>
+                        <td style="padding-right:12px;">
+                            <img src="xero-logo_1.jpg" alt="Xero" height="60" style="display:block; border:0;">
+                        </td>
+                        <td style="padding-right:12px;">
+                            <img src="BUILDXACT-logo_1.jpg" alt="Buildxact" height="60"
+                                style="display:block; border:0;">
+                        </td>
+                        <td style="padding-right:12px;">
+                            <img src="HSEQ_hiRes_1.jpg" alt="HSEQ" height="60" style="display:block; border:0;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-right:12px;">
+                            <img src="CM3+PREQUALIFIED_1.jpg" alt="CM3" height="60" style="display:block; border:0;">
+                        </td>
+                        <td style="padding-right:12px;">
+                            <img src="CES-logo_1.jpg" alt="CES" height="60" style="display:block; border:0;">
+                        </td>
+                        <td style="padding-right:12px;">
+                            <img src="Rexel_corporate_logo.svg.png" alt="Rexel" height="60"
+                                style="display:block; border:0;">
+                        </td>
+                        <td style="padding-right:12px;">
+                            <img src="logo-cnw_1.jpg" alt="CNW" height="60" style="display:block; border:0;">
+                        </td>
+                        <td>
+                            <img src="Logo+MM_1.jpg" alt="MM" height="60" style="display:block; border:0;">
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+    </table>
+    <!-- /Signature -->
 
 </body>
 
-
 </html>
-
